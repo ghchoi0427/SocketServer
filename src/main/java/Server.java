@@ -13,8 +13,8 @@ public class Server {
 
     public void startServer(int port) {
         try (ServerSocket server = new ServerSocket()) {
-            InetSocketAddress ipep = new InetSocketAddress(port);
-            server.bind(ipep);
+            InetSocketAddress address = new InetSocketAddress(port);
+            server.bind(address);
 
             print("Initialize complete");
             ExecutorService receiver = Executors.newCachedThreadPool();
