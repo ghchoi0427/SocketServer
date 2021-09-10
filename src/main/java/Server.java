@@ -1,8 +1,8 @@
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private final int BUFFER_SIZE = 1024;
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public void startServer(int port) {
         try (ServerSocket server = new ServerSocket()) {
@@ -36,20 +37,39 @@ public class Server {
     }
 
     private void startConnection(Socket clientSocket) {
-        try (OutputStream outputStream = clientSocket.getOutputStream();
-             InputStream inputStream = clientSocket.getInputStream()) {
-            byte[] bytes = new byte[BUFFER_SIZE];
+        try {
+            ExecutorService reader = Executors.newCachedThreadPool();
+
+            reader.execute(() -> {
+                try {
+                    readMessage(clientSocket);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
             while (true) {
-                inputStream.read(bytes, 0, bytes.length);
-                print(new String(bytes));
-                outputStream.write(bytes);
+                sendMessage(clientSocket, br.readLine());
             }
         } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             print("Client disconnected IP address =" + clientSocket.getRemoteSocketAddress().toString());
         }
+    }
+
+    private void readMessage(Socket socket) throws IOException {
+        byte[] bytes = new byte[BUFFER_SIZE];
+        while (socket.getInputStream().read(bytes, 0, bytes.length) != -1) {
+            print(socket.getRemoteSocketAddress() + ":" + new String(bytes));
+            bytes = new byte[BUFFER_SIZE];
+        }
+    }
+
+    private void sendMessage(Socket socket, String message) throws IOException {
+        OutputStream outputStream = socket.getOutputStream();
+        byte[] bytes = (message + "\n").getBytes(StandardCharsets.UTF_8);
+        outputStream.write(bytes);
     }
 
     private static void print(String message) {
