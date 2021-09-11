@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 public class FileHandler {
 
-    public static byte[] getByteFromFile(String filename) {
+    public static byte[] getByteFromResourceFile(String filename) {
         byte[] bytes;
         InputStream is = FileHandler.class.getClassLoader().getResourceAsStream(filename);
         try {
