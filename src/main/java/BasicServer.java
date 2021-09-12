@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server {
+public class BasicServer {
     private final int BUFFER_SIZE = 1024;
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -76,4 +76,6 @@ public class Server {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("[hh:mm:ss]");
         System.out.println(simpleDateFormat.format(new Date()) + message);
     }
+
+
 }
