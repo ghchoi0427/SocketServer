@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AsyncServer extends Server {
+public class AsyncServer {
 
     ServerSocket serverSocket = null;
     Socket socket = null;
