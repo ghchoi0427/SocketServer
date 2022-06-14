@@ -1,7 +1,5 @@
 package async;
 
-import echoserver.Server;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -29,8 +27,13 @@ public class AsyncServer {
                 InetSocketAddress isa = (InetSocketAddress) socket.getRemoteSocketAddress();
                 System.out.println("[연결 수락함] " + isa.getHostName());
 
-                new Thread(new AsyncRead(socket)).start();
-                new Thread(new AsyncWrite(socket)).start();
+                if (sockets.size() == 2) {
+                    System.out.println("채팅 생성");
+                    new Thread(new ReadAndWrite(sockets.get(0), sockets.get(1))).start();
+                    new Thread(new ReadAndWrite(sockets.get(1), sockets.get(0))).start();
+                    sockets = new ArrayList<>();
+                }
+
 
             }
         } catch (
@@ -48,6 +51,4 @@ public class AsyncServer {
             }
         }
     }
-
-
 }
