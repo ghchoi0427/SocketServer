@@ -9,11 +9,11 @@ import java.nio.charset.StandardCharsets;
 public class Allocator implements Runnable {
     Socket socket;
     byte[] bytes = null;
-    private final String question = "who are you? type [p] when you're publisher, [s] when you're subscriber\n";
-
+    Topic topic;
 
     public Allocator(Socket socket) {
         this.socket = socket;
+        topic = Topic.getInstance();
     }
 
     @Override
@@ -21,10 +21,13 @@ public class Allocator implements Runnable {
         try {
             UserType type = ask();
             if (type.equals(UserType.PUBLISHER)) {
-                //TODO: register publisher
+                System.out.println("[Allocator] pub added");
+                topic.addPublisher(socket);
+                new Thread(new Channel(socket)).start();
             }
             if (type.equals(UserType.SUBSCRIBER)) {
-                //TODO: register subscriber
+                System.out.println("[Allocator] sub added");
+                topic.addSubscriber(socket);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,6 +36,7 @@ public class Allocator implements Runnable {
 
 
     private UserType ask() throws IOException {
+        String question = "who are you? type [p] when you're publisher, [s] when you're subscriber\n";
         socket.getOutputStream().write(question.getBytes(StandardCharsets.UTF_8));
         bytes = new byte[100];
         int len = socket.getInputStream().read(bytes);
