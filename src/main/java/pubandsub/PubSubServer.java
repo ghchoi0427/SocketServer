@@ -21,6 +21,7 @@ public class PubSubServer {
         try {
             serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress("localhost", 8080));
+            new Thread(new Mailman()).start();
 
             while (true) {
                 System.out.println("[연결 기다림]");
