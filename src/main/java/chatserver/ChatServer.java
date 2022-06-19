@@ -1,5 +1,7 @@
 package chatserver;
 
+import server.SocketServer;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -7,7 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatServer {
+public class ChatServer implements SocketServer {
 
 
     ServerSocket serverSocket = null;

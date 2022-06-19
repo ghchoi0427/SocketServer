@@ -1,4 +1,6 @@
-package echoserver;
+package multithread;
+
+import server.SocketServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -7,7 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Server {
+public class MultiThreadServer implements SocketServer {
 
     ServerSocket serverSocket = null;
     Socket socket = null;
@@ -27,8 +29,13 @@ public class Server {
                 InetSocketAddress isa = (InetSocketAddress) socket.getRemoteSocketAddress();
                 System.out.println("[연결 수락함] " + isa.getHostName());
 
-                t = new Thread(new Room(socket));
-                t.start();
+                if (sockets.size() == 2) {
+                    System.out.println("채팅 생성");
+                    new Thread(new ReadAndWrite(sockets.get(0), sockets.get(1))).start();
+                    new Thread(new ReadAndWrite(sockets.get(1), sockets.get(0))).start();
+                    sockets = new ArrayList<>();
+                }
+
 
             }
         } catch (
@@ -46,6 +53,4 @@ public class Server {
             }
         }
     }
-
-
 }
