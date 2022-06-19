@@ -1,4 +1,4 @@
-package async;
+package multithread;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AsyncServer {
+public class MultithreadServer {
 
     ServerSocket serverSocket = null;
     Socket socket = null;
