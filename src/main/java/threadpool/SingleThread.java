@@ -12,7 +12,7 @@ public class SingleThread implements DownloadImage{
     @Override
     public void run(String keyword, int page) {
         Crawler crawler = new Crawler();
-        Downloader downloader = new Downloader("path");
+        Downloader downloader = new Downloader("C:\\temp");
         String[] sourceArray = crawler.getImageSourceArray(baseUrl + keyword, page);
         Arrays.stream(sourceArray).forEach(downloader::downloadImage);
     }
