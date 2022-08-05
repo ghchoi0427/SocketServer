@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.UUID;
 
 /**
  * image downloader
@@ -25,7 +26,7 @@ public class Downloader {
         try {
             url = new URL(urlString);
             in = url.openStream();
-            File file = new File(path, urlString.split("/")[4]);
+            File file = new File(path, UUID.randomUUID() + ".jpg");
             out = new FileOutputStream(file);
             while (true) {
                 int data = in.read();
