@@ -1,0 +1,19 @@
+package threadpool;
+
+import threadpool.crawlanddownload.Crawler;
+import threadpool.crawlanddownload.Downloader;
+
+import java.util.Arrays;
+
+public class SingleThread implements DownloadImage{
+
+    private final String baseUrl = "https://www.shutterstock.com/search/";
+
+    @Override
+    public void run(String keyword, int page) {
+        Crawler crawler = new Crawler();
+        Downloader downloader = new Downloader("path");
+        String[] sourceArray = crawler.getImageSourceArray(baseUrl + keyword, page);
+        Arrays.stream(sourceArray).forEach(downloader::downloadImage);
+    }
+}
