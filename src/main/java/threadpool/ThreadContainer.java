@@ -10,7 +10,7 @@ public class ThreadContainer {
         return new MultiThread();
     }
 
-    public static FixedThreadPool FixedThreadPool(int nThread) {
+    public static FixedThreadPool fixedThreadPool(int nThread) {
         return new FixedThreadPool(nThread);
     }
 
