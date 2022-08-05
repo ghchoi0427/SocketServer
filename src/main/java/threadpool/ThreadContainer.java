@@ -2,15 +2,22 @@ package threadpool;
 
 public class ThreadContainer {
 
-    public static SingleThread getSingle() {
+    public static SingleThread singleThread() {
         return new SingleThread();
     }
 
-    public static MultiThread getMulti() {
+    public static MultiThread multiThread() {
         return new MultiThread();
     }
 
-    public static CustomThreadPool getCustom(int nThread) {
-        return new CustomThreadPool(nThread);
+    public static FixedThreadPool fixedThreadPool(int nThread) {
+        return new FixedThreadPool(nThread);
+    }
+    public static NewFixedThreadPool newFixedThreadPool(int nThread) {
+        return new NewFixedThreadPool(nThread);
+    }
+
+    public static CachedThreadPool cachedThreadPool() {
+        return new CachedThreadPool();
     }
 }
