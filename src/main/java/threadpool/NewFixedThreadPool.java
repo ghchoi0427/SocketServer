@@ -3,10 +3,11 @@ package threadpool;
 import threadpool.crawlanddownload.Crawler;
 import threadpool.crawlanddownload.Downloader;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class NewFixedThreadPool implements DownloadImage{
+public class NewFixedThreadPool implements DownloadImage {
 
     private final int nThread;
     private final String baseUrl = "https://www.shutterstock.com/search/";
@@ -20,14 +21,13 @@ public class NewFixedThreadPool implements DownloadImage{
     public void run(String keyword, int page) {
         ExecutorService service = Executors.newFixedThreadPool(nThread);
         Crawler crawler = new Crawler();
-        String[] imageSourceArray = crawler.getImageSourceArray(baseUrl + keyword, page);
+        List<String> imageSourceList = crawler.getImageSourceList(baseUrl + keyword, page);
         downloader = new Downloader("C:\\temp");
 
-        for (int i = 0; i < imageSourceArray.length; i++) {
-            int finalI = i;
-            Runnable runnable = () -> downloader.downloadImage(imageSourceArray[finalI]);
+        imageSourceList.forEach(src -> {
+            Runnable runnable = () -> downloader.downloadImage(src);
             service.submit(runnable);
-        }
+        });
         service.shutdown();
     }
 }
