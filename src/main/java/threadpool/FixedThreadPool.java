@@ -6,11 +6,11 @@ import threadpool.crawlanddownload.Downloader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CustomThreadPool implements DownloadImage {
+public class FixedThreadPool implements DownloadImage {
     private final int nThreads;
     private final String baseUrl = "https://www.shutterstock.com/search/";
 
-    public CustomThreadPool(int nThreads) {
+    public FixedThreadPool(int nThreads) {
         this.nThreads = nThreads;
     }
 
