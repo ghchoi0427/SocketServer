@@ -11,8 +11,8 @@ public class MultiThread implements DownloadImage {
     @Override
     public void run(String keyword, int page) {
         Crawler crawler = new Crawler();
-        List<String> imageSourceList = crawler.getImageSourceList(baseUrl + keyword, page);
         Downloader downloader = new Downloader("C:\\temp");
+        List<String> imageSourceList = crawler.getImageSourceList(baseUrl + keyword, page);
 
         imageSourceList.forEach(src->{
             Runnable runnable = () -> downloader.downloadImage(src);

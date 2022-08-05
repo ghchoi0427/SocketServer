@@ -3,7 +3,6 @@ package threadpool;
 import threadpool.crawlanddownload.Crawler;
 import threadpool.crawlanddownload.Downloader;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SingleThread implements DownloadImage{

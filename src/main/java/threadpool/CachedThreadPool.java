@@ -12,10 +12,10 @@ public class CachedThreadPool implements DownloadImage {
 
     @Override
     public void run(String keyword, int page) {
-        Crawler crawler = new Crawler();
-        List<String> imageSourceList = crawler.getImageSourceList(baseUrl + keyword, page);
         ExecutorService service = Executors.newCachedThreadPool();
+        Crawler crawler = new Crawler();
         Downloader downloader = new Downloader("C:\\temp");
+        List<String> imageSourceList = crawler.getImageSourceList(baseUrl + keyword, page);
         imageSourceList.forEach(src -> service.submit(() -> downloader.downloadImage(src)));
         service.shutdown();
     }
